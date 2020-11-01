@@ -1,57 +1,62 @@
 # 2048
-Uma versão do jogo 2048 feita usando ncurses como projeto final da matéria Computação I
+A version of 2048 built with ncurses as a Computer I final project
 
-# Tabela de conteúdo
+# Table of Content
 
-- [Como Jogar](#como-jogar)
-- [Dependências](#dependências)
-  - [Debian](#debian-e-derivados)
-  - [Arch](#arch-linux-e-derivados)
-  - [Fedora](#fedora-e-derivados)
-- [Compilação](#compilação)
-- [Execução](#execução)
+- [How to Play](#how-to-play)
+- [Dependencies](#dependencies)
+  - [Debian](#debian)
+  - [Arch](#arch-linux)
+  - [Fedora](#fedora)
+- [Compilation](#compilation)
+- [Running](#running)
 - [Troubleshooting](#troubleshooting)
   - [Interface](#interface)
   - [Build](#build)
+- [Disclaimer](#disclaimer)
 
-# Como Jogar
+# How to Play
 
-O jogo consiste em um grid 4x4 e começa com dois valores, podendo cada um ser 2 ou 4, aleatoriamente. Você pode pressionar W para mover todos os valores o máximo possível para cima, S para baixo, A para esquerda ou D para a direita. Se durante o movimento dois valores iguais se tocarem, eles se tornam um só valor equivalente a sua soma. Todo movimento realizado adiciona um novo valor ao grid se houver espaço para tal, estes valores podendo ser 2 ou 4, aleatoriamente. O objetivo do jogo é conseguir um valor igual a 2048 no grid e você perde caso preencha o grid 4x4 e não hajam mais movimentos possíveis
+The game starts with 2 tiles, each of which can be, randomly, 2 or 4 . If you press any direction, all the blocks will move to this direction the as far as possible, if tiles with the same number get touched while moving, they will be merge into one. Every move add a new tile in a new random position (2 or 4, randomly).
+The goal is reach up one tile to the 2048 value, you lose if you don't have any possible movement.
 
-# Dependências
+# Dependencies
 ```
 gcc
 make
 ncurses
 ```
-### Debian e derivados
+### Debian
 
 `sudo apt-get install libncurses5-dev gcc make`
 
-### Arch Linux e derivados
+### Arch Linux
 `sudo pacman -S make gcc ncurses`
 
-### Fedora e derivados
+### Fedora
  `yum install gcc make ncurses`
 
-# Compilação
+# Compilation
 ```
 git clone https://github.com/C1-UFRJ-G2/Trabalho-1-de-Comp-1-2020-PLE---2048 2048
 cd 2048
-make ou gcc -lncurses -O2 -Wall -ansi -pedantic -Wno-unused-result src/*.c -o 2048
+make or gcc -lncurses -O2 -Wall -ansi -pedantic -Wno-unused-result src/*.c -o 2048
 ```
 
-# Execução
-Tendo compilado
+# Running
 
-`make run` ou `./2048`
+`make run` or `./2048`
 
 # Troubleshooting
 
 ### Interface
 
-Caso você experiencie problemas com a sua interface, significa que seu OS não está preparado para receber caracteres unicode, quando executar o jogo utilize a flag "--no-unicode" e uma interface sem caracteres unicode será disponibilizada Ex: `./2048 --no-unicode`
+If you have interface issues, it means your OS isn't ready to work with unicode characters, when you run the game, use the the `--no--unicode` flag and a simpler interface will appear. Ex.: `./2048 --no-unicode`
 
 ### Build
 
-Os gerenciadores de pacotes instalam a biblioteca ncurses de maneira inconstante, caso o makefile não seja capaz de acessar a biblioteca já instalada (veja [dependências](#dependências)), utilize o comando `gcc -lncurses -O2 -Wall -ansi -pedantic -Wno-unused-result src/*.c -o 2048`.
+Package managers has some issues with ncurses installing, if the makefile don't be able to access the library (see [dependencies](#dependencies)) use the command `gcc -lncurses -O2 -Wall -ansi -pedantic -Wno-unused-result src/*.c -o 2048` to compile.
+
+# Disclaimer
+
+Some of the commits and release tags are 100% in portuguese because the game was made as a college project, and we are supposed to write this on our maternal language. You can see the original repository clicking [here](https://github.com/C1-UFRJ-G2/Trabalho-1-de-Comp-1-2020-PLE---2048).

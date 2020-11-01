@@ -2,6 +2,6 @@
 #define HANDLE_H
 
 void killHandle();
-void verificaTamanhoDoTerminal(void);
+void terminalSizeHandle(void);
 
 #endif

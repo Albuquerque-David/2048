@@ -1,7 +1,7 @@
 default: build
 
 build:
-	@$(CC) src/*.c $(C_FLAGS) -o $(TARGET) && echo -e "Caso tenha erro com a interface, adicione a flag --no-unicode ao executar"
+	@$(CC) src/*.c $(C_FLAGS) -o $(TARGET) && echo -e "If you encounter interface messes, use the flag --no-unicode while running"
 
 run: build
 	@./$(TARGET)

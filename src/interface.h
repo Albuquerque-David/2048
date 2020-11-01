@@ -3,9 +3,9 @@
 
 #include "game.h"
 
-void iniciaUnicode(char *flag);
-void iniciaInterface(void);
-void encerraInterface(void);
+void defineUnicode(char *flag);
+void startInterface(void);
+void terminatesInterface(void);
 void printInterface(short int matrix[SIZE][SIZE]);
 
 #endif

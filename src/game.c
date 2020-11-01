@@ -4,41 +4,39 @@
 #include "game.h"
 #include "interface.h"
 
-#define VITORIA 1
-#define DERROTA 0
+#define WIN 1
+#define LOSS 0
 
 unsigned int high_score, score = 0;
 
-/*Sobrescreve o antigo high_score caso ele tenha sido superado*/
-void novoHighScore(void) {
+/*Write a new high_score*/
+void newHighScore(void) {
     FILE *score_data = fopen("high_score.bin", "wb");
     high_score = score;
     fwrite(&score, sizeof(int), 1, score_data);
     fclose(score_data);
 }
 
-/*Recebe o high_score caso ele esteja definido para algum valor, se não,
-cria o arquivo high_score.bin para guardar o high_score e coloca 0 como
-atual high_score*/
+/*Read the high score or create the high_score file*/
 void getHighScore(void) {
     FILE *score_data = fopen("high_score.bin", "rb");
     if (!score_data) {
-        novoHighScore();
+        newHighScore();
     } else {
         fread(&high_score, sizeof(int), 1, score_data);
         fclose(score_data);
     }
 }
 
-/*Retorna true ou false caso o jogo deva começar, iniciando o processo
-de restart caso o jogador tenha perdido ou ganhado*/
-short int oJogoContinua(short int matrix[SIZE][SIZE]) {
+/*Return true or fale if the game can continue, start the restart process if the player
+win or loss*/
+short int continues(short int matrix[SIZE][SIZE]) {
     short int i, j;
 
     for (i = 0; i < SIZE; i++) {
         for (j = 0; j < SIZE; j++) {
             if (matrix[i][j] == 2048) {
-                return restart(matrix, VITORIA);
+                return restart(matrix, WIN);
             }
         }
     }
@@ -59,20 +57,18 @@ short int oJogoContinua(short int matrix[SIZE][SIZE]) {
         }
     }
 
-    return restart(matrix, DERROTA);
+    return restart(matrix, LOSS);
 }
 
-/*Percorre a matriz equivalente ao grid do jogo, encontrando os valores iguais a zero
-e guardando seus endereços, depois disso, adiciona um novo valor (90% de chance de ser
-um 2 e 10% de ser um 4) em um valor igual a zero aleatório*/
-void adicionaNovoValor(short int matrix[SIZE][SIZE]) {
+/*Search for empty spaces in the grid and add a new value to one of them*/
+void addNewValue(short int matrix[SIZE][SIZE]) {
     short int i, j, counter = 0,
-    **vazios = (short int **) malloc(sizeof(short int *) * SIZE * SIZE);
+    **empties = (short int **) malloc(sizeof(short int *) * SIZE * SIZE);
 
     for (i = 0; i < SIZE; i++) {
 		for (j = 0; j < SIZE; j++) {
 			if (matrix[i][j] == 0) {
-				*(vazios + counter) = &matrix[i][j];
+				*(empties + counter) = &matrix[i][j];
 				counter++;
 			}
 		}
@@ -80,62 +76,55 @@ void adicionaNovoValor(short int matrix[SIZE][SIZE]) {
 
     if (counter > 0) {
         int i = rand() % counter;
-        *vazios[i] = (rand() % 10) ? 2 : 4;
+        *empties[i] = (rand() % 10) ? 2 : 4;
     }
 
-    free(vazios);
+    free(empties);
 }
 
-/*Define o novo high_score caso o jogador o tenha batido e encerra a interface*/
-void fimDeJogo(void) {
-    if (score > high_score) novoHighScore();
-    encerraInterface();
+/*End game process. Disable interface, define high_score and disable keypad tracking*/
+void exitGame(void) {
+    if (score > high_score) newHighScore();
+    terminatesInterface();
     keypad(stdscr, 0);
 }
 
-/*Inicia a interface, pega o high_score guardado e adiciona os valores
-do inicio do jogo*/
-void novoJogo(short int matrix[SIZE][SIZE]) {
+/*Start game proces. Enable interface, read high_score and enable keypad tracking*/
+void newGame(short int matrix[SIZE][SIZE]) {
     short int i, j;
     score = 0;
-    iniciaInterface();
-    printInterface(matrix); /* Sem essa função aqui, ao reiniciar o jogo,
-                                a interface não aparece até receber input
-                                do usuário */
+    startInterface();
+    printInterface(matrix);
     for (i = 0; i < SIZE; i++) {
         for (j = 0; j < SIZE; j++) {
             matrix[i][j] = 0;
         }
     }
-    /*Desativa o comportamento padrão dos direcionais no terminal, e permite usa-los
-    como controle*/
-    keypad(stdscr, 1);
+
+    keypad(stdscr, 1); /*Enable keypad tracking*/
     getHighScore();
-    adicionaNovoValor(matrix);
-    adicionaNovoValor(matrix);
+    addNewValue(matrix);
+    addNewValue(matrix);
     printInterface(matrix);
 }
 
-/*Pergunta se o jogador deseja encerrar o jogo iniciando um novo jogo caso
-sim, ou realizando os processos de fim de jogo caso não, geralmente é chamado pela função
-oJogoContinua(), que recebe o valor que ela retornará o valor que ela retornar, entre 0 e 1,
-definindo se o jogo continuará ou não*/
+/*Ask to the player if the game has to restart or not*/
 short int restart(short int matrix[SIZE][SIZE], int status) {
     printInterface(matrix);
-    move(11, 0); /*Move o ponteiro para o começo da linha onde se encontram os controles*/
-    clrtoeol(); /*Apaga essa linha*/
+    move(11, 0); /*Move the pinter to the row where are the control instructions*/
+    clrtoeol(); /*Erase control line*/
 
-    if (status == VITORIA) printw("Você venceu!\n");
-    else printw("Você perdeu!\n");
-    printw("Pressione r para jogar novamente ou q para sair\n");
+    if (status == WIN) printw("You win!\n");
+    else printw("You lose!\n");
+    printw("Press r to play again ou q to quit\n");
 
     while (1) {
         char input = getch();
 
         switch (input) {
             case 'r':
-                fimDeJogo();
-                novoJogo(matrix);
+                exitGame();
+                newGame(matrix);
                 return 1;
 
             case 'q':

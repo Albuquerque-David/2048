@@ -1,9 +1,8 @@
 /*
 * 2048
-* Autores: Eduardo, Jorge e João Matheus;
-* DREs: 120047675, 120063312, 120023786;
-* Testado no GNU/Linux 5.9.1-arch1-1 e 4.19.101-2-lts;
-* Esse software é licenciado sob licença MIT.
+* Authors: Eduardo, Jorge e João Matheus;
+* Tested at GNU/Linux 5.9.1-arch1-1 e 4.19.101-2-lts;
+* This software is licensed under MIT license.
 */
 
 #include <ncurses.h>
@@ -12,68 +11,64 @@
 #include <signal.h>
 #include <locale.h>
 #include <time.h>
-#include "controles.h"
+#include "controls.h"
 #include "interface.h"
 #include "game.h"
 #include "handle.h"
 
 int main(int argc, char *argv[]) {
     static short int matrix[SIZE][SIZE];
-    short int controle, movimentos;
+    short int control, moves;
 
-    srand(time(NULL)); /*Adiciona uma seed vinculada ao tempo nos rand()'s*/
-    setlocale(LC_ALL, ""); /* Para poder imprimir os caracteres acentuados corretamente */
+    srand(time(NULL)); /*Create a rand() seed*/
+    setlocale(LC_ALL, ""); /*Add full UTF-8 support*/
 
-    /* Impede que o jogo pare sem desativar a interface, desativando o comportamento
-    padrão do Ctrl + C e do Ctrl + Z*/
+    /*Disable control + Z and Control + C behaviour and handle it to the killHandle() function*/
     signal(SIGINT, killHandle);
     signal(SIGTSTP, killHandle);
 
-    if (argc > 1) iniciaUnicode(argv[1]); /*Confere se o usuário adicionou 
-                                            a flag que desativa interface unicode*/
+    if (argc > 1) defineUnicode(argv[1]); /*Verify if --no-unicode flag is enabled*/
 
-    novoJogo(matrix);
-    verificaTamanhoDoTerminal();
-    /*Enquanto a função oJogoContinua continuar retornando true, imprime a interface de jogo
-    e recebe input de novos movimentos*/
-    while (oJogoContinua(matrix)) {
-        controle = getch();
-        movimentos = 0;
+    newGame(matrix);
+    terminalSizeHandle();
 
-        switch (controle) {
+    /*While the game continues, get player inputs*/
+    while (continues(matrix)) {
+        control = getch();
+        moves = 0;
+
+        switch (control) {
             case 'w': case KEY_UP:
-                movimentos = paraCima(matrix);
+                moves = moveUp(matrix);
             break;
 
             case 'a': case KEY_LEFT:
-                movimentos = paraEsquerda(matrix);
+                moves = moveLeft(matrix);
             break;
 
             case 's': case KEY_DOWN:
-                movimentos = paraBaixo(matrix);
+                moves = moveDown(matrix);
             break;
 
             case 'd': case KEY_RIGHT:
-                movimentos = paraDireita(matrix);
+                moves = moveRight(matrix);
             break;
 
             case '0':
-                fimDeJogo();
+                exitGame();
                 return 0;
 
             default:
                 break;
         }
 
-        if (movimentos) {
-            adicionaNovoValor(matrix);
+        if (moves) {
+            addNewValue(matrix);
             printInterface(matrix);
         }
     }
 
-    /*Encerra o processo do jogo caso não tenha sido feito anteriormente, 
-    geralmente o programa só chegara aqui caso o jogador vença ou perca e escolha
-    sair no lugar de reiniciar o jogo*/
-    fimDeJogo();
+    /*End the game, generally, the game just came here if the player lose r win and press q to exit*/
+    exitGame();
     return 0;
 }

@@ -7,22 +7,20 @@
 #define MIN_X_SIZE 15
 #define MIN_Y_SIZE 22
 
-/*Dá handle nos comandos SIGKILL e SIGINT, impedindo que o jogo pare
-inesperadamente*/
+/*Handle the signals SIGKILL e SIGINT*/
 void killHandle(void) {
-    fimDeJogo();
+    exitGame();
     exit(0);
 }
 
-/*No inicio do jogo, será chamada para verificar o tamanho do terminal e disparará um erro
-se ele estiver muito pequeno para comportar o jogo */
-void verificaTamanhoDoTerminal(void) {
+/*Verify terminal size, if it's to small, end the game*/
+void terminalSizeHandle(void) {
     short int x, y;
     getmaxyx(stdscr, x, y);
     if (x < MIN_X_SIZE || y < MIN_Y_SIZE) {
-        fimDeJogo();
+        exitGame();
         system("clear");
-        system("echo -e \"Aumente o tamanho do seu emulador de terminal e tente novamente!\"");
+        system("echo \"Resize your terminal and try again!\"");
         exit(1);
     }
 }
