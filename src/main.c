@@ -16,7 +16,6 @@
 #include "interface.h"
 #include "game.h"
 #include "handle.h"
-#include "music.h"
 
 int main(int argc, char *argv[]) {
     static short int matrix[SIZE][SIZE];
@@ -56,14 +55,6 @@ int main(int argc, char *argv[]) {
 
             case 'd': case KEY_RIGHT:
                 movimentos = paraDireita(matrix);
-            break;
-
-            case 'm':
-                play();
-            break;
-
-            case 'p':
-                stop();
             break;
 
             case '0':
