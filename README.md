@@ -40,7 +40,7 @@ ncurses
 ```
 git clone https://github.com/edufcarvalho/2048
 cd 2048
-make or gcc -lncurses -O2 -Wall -ansi -pedantic -Wno-unused-result src/*.c -o 2048
+make || gcc -lncurses -O2 -Wall -ansi -pedantic -Wno-unused-result src/*.c -o 2048
 ```
 
 # Running
