@@ -116,7 +116,7 @@ short int restart(short int matrix[SIZE][SIZE], int status) {
 
     if (status == WIN) printw("You win!\n");
     else printw("You lose!\n");
-    printw("Press r to play again ou q to quit\n");
+    printw("Press r to play again or q to quit");
 
     while (1) {
         char input = getch();
