@@ -1,5 +1,4 @@
 #include <ncurses.h>
-#include <signal.h>
 #include <stdlib.h>
 #include "game.h"
 #include "handle.h"

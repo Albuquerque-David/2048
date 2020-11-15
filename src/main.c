@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    /*End the game, generally, the game just came here if the player lose r win and press q to exit*/
+    /*End the game. Generally, the game just came here if the player lose r win and press q to exit*/
     exitGame();
     return 0;
 }
