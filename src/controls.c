@@ -35,7 +35,7 @@ short int moveUp(short int matrix[SIZE][SIZE]) {
     if (moves > 0) {
 		for (i = 1; i < SIZE; i++) {
 			for (j = 0; j < SIZE; j++) {
-				if(matrix[i][j] != 0 && matrix[i - 1][j] == 0) {
+				if (matrix[i][j] != 0 && matrix[i - 1][j] == 0) {
 					matrix[i - 1][j] = matrix[i][j];
 					matrix[i][j] = 0;
 				}
