@@ -25,6 +25,7 @@ The goal is reach up one tile to the 2048 value, you lose if you don't have any 
 gcc
 make
 ncurses
+UTF-8 support
 ```
 ### Debian
 
@@ -51,7 +52,7 @@ make || gcc -lncurses -O2 -Wall -ansi -pedantic -Wno-unused-result src/*.c -o 20
 
 ### Interface
 
-If you have interface issues, it means your OS isn't ready to work with unicode characters, when you run the game, use the the `--no--unicode` flag and a simpler interface will appear. Ex.: `./2048 --no-unicode`
+If you have interface issues, it means your OS isn't ready to work with unicode characters, when you run the game, use the the `--no--unicode` flag and a simpler interface will appear. Ex.: `./2048 --no-unicode`. If you want to fix it, follow [these](https://wiki.archlinux.org/index.php/Locale#Setting_the_locale) instructions.
 
 ### Build
 
