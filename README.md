@@ -60,4 +60,4 @@ Package managers has some issues with ncurses installing, if the makefile don't 
 
 # Disclaimer
 
-Some of the commits and release tags are 100% in portuguese because the game was made as a college project, and we are supposed to write this on our maternal language. You can see the original repository clicking [here](https://github.com/C1-UFRJ-G2/Trabalho-1-de-Comp-1-2020-PLE---2048).
+Some of the commits and release tags are 100% in brazilian portuguese because the game was made as a college project and we are supposed to code in our maternal language. You can see the original repository clicking [here](https://github.com/C1-UFRJ-G2/Trabalho-1-de-Comp-1-2020-PLE---2048).
